@@ -1,0 +1,13 @@
+{
+  "generation": 1,
+  "keywords": [
+    "python",
+    "rust",
+    "machine-learning",
+    "api",
+    "automation"
+  ],
+  "sources": [
+    "https://pypi.org/rss/updates.xml"
+  ]
+}

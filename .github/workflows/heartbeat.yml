@@ -1,0 +1,43 @@
+name: Hermit Protocol Heartbeat
+
+on:
+  schedule:
+    # 每日 UTC 时间 00:00 (北京时间 08:00) 自动唤醒
+    - cron: '0 0 * * *'
+  # 允许手动在 GitHub 网页上点击按钮触发测试
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  daily-cycle:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run Genesis Core
+        run: |
+          python genesis_core.py
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "Hermit Bot"
+          git config --global user.email "bot@hermit-protocol.io"
+          
+          # 将生成的文件加入暂存区
+          git add index.html data/ hermit_config.json
+          
+          # 检查是否有变化，有则提交，无则跳过（避免报错）
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🧬 Daily Evolution: $(date +'%Y-%m-%d')" && git push)
