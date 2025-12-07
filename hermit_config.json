@@ -1,11 +1,12 @@
 {
-  "generation": 5,
+  "generation": 6,
   "keywords": [
     "python",
     "rust",
     "machine-learning",
     "api",
-    "automation"
+    "automation",
+    "django"
   ],
   "sources": [
     "https://pypi.org/rss/updates.xml"
